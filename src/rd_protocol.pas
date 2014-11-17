@@ -175,7 +175,7 @@ var Handled : Boolean;
 begin
   if not IsConnected then
    begin
-     FSock.Bind(FIPInterface, cAnyPort);
+    // FSock.Bind(FIPInterface, cAnyPort);
 
      FSock.Connect(FTargetHost, FTargetPort);
      FError := ERROR_OK;

@@ -3,7 +3,7 @@ program test_commands;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, sysutils, laz_synapse, rd_protocol, rd_commands, rd_types, eventlog,
+  Classes, sysutils,  rd_protocol, rd_commands, rd_types, eventlog,
   strutils
   { you can add units after this };
 
