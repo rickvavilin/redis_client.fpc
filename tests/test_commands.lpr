@@ -103,6 +103,21 @@ begin
  server.Free;
 end;
 
+procedure test_set_get;
+var command:TRedisDBCommands;
+begin
+  IO.Connect;
+  try
+    command:=TRedisDBCommands.create(IO);
+    return:=command.send_command2('HSET',['TEST','A','B']);
+    print_return('HSET');
+    return:=command.send_command2('HGETALL',['TEST']);
+    print_return('HGET');
+  finally
+  if IO.Connected then IO.Disconnect;
+  end;
+end;
+
 begin
   log                  := TEventLog.Create(nil);
   log.FileName         := ExtractFilePath(ParamStr(0)) + 'debug.log';
@@ -115,6 +130,7 @@ begin
 
   test_connection;
   test_server;
+  test_set_get;
 
   if IO.Connected then
     IO.Disconnect;
