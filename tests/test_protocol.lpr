@@ -3,19 +3,19 @@ program test_protocol;
 {$mode objfpc}{$H+}
 
 uses
-  rd_protocol, laz_synapse, eventlog, sysutils, rd_commands
+  rd_protocol,  eventlog, sysutils, rd_commands
   { you can add units after this };
 
 var
    redis   : TRedisIO;
-   command : TRedisCommands;
+   command : TRedisDBCommands;
    Log     : TEventLog;
    cmd     : String;
    answer  : string;
 
 begin
   redis                := TRedisIO.Create;
-  command              := TRedisCommands.Create(redis);
+  command              := TRedisDBCommands.Create(redis);
   log                  := TEventLog.Create(nil);
   Log.FileName         := ExtractFilePath(ParamStr(0)) + 'debug.log';
   Log.LogType          := ltFile;
