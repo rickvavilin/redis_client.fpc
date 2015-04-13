@@ -119,6 +119,8 @@ type
   end;
 
   { TRedisAbstractCommands }
+ type                          //because older FPC can't compile this definition inside class definition
+  TVarRecs = array of TVarRec;
 
   TRedisAbstractCommands = class(TRedisObject)
   protected
@@ -129,8 +131,7 @@ type
     FBoolFalse   : String;
     FRedisParser : TRedisParser;
 
-    type
-      TVarRecs = array of TVarRec;
+
 
     function ParamsToStr(params : array of const) : String; virtual;
     function GetSocket: TTCPBlockSocket;
@@ -1512,6 +1513,18 @@ begin Result := ValueToLine(CurrToStr(params[i].VCurrency^)); end;
 function EToLine : String; inline;
 begin Result := ValueToLine(FloatToStr(params[i].VExtended^)); end;
 
+function StreamToLine:string;
+var ss:TStringStream;
+begin
+  if params[i].VObject is TStream then
+  begin
+    ss:=TStringStream.create('');
+    ss.CopyFrom(TStream(params[i].VObject),TStream(params[i].VObject).Size) ;
+    result:=ValueToLine(ss.DataString);
+    ss.free;
+  end;
+end;
+
 var
   line    : String;
   Handled : Boolean;
@@ -1530,6 +1543,7 @@ begin
        vtString     : line := SSToLine;
        vtPChar,
        vtAnsiString : line := SToLine;
+       vtObject: line:=StreamToLine;
        else begin
              line    := '';
              Handled := false;
